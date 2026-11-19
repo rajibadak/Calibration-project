@@ -36,10 +36,19 @@ function parseRoute() {
   return { name: parts[0], id: parts[1] || null, mode: parts[2] || null, params };
 }
 
+function toastTone(message) {
+  const text = String(message || "").toLowerCase();
+  if (/deleted|removed|erased|rejected|no fund request|reminders will stop/.test(text)) return "warning";
+  if (/issued|paid|saved|created|updated|accepted|released|downloaded|signed in|recorded|added/.test(text)) return "success";
+  if (/email prepared|mail log|mail application|whatsapp|reminder is ready|reminders are ready/.test(text)) return "cyan";
+  return "success";
+}
+
 function toast(message, tone) {
   if (!message) return;
+  const kind = tone || toastTone(message);
   const item = document.createElement("div");
-  item.className = "toast pointer-events-auto" + (tone === "error" ? " toast-error" : "");
+  item.className = "toast pointer-events-auto toast-" + kind;
   item.textContent = message;
   document.getElementById("toast").appendChild(item);
   setTimeout(() => item.remove(), 4200);
@@ -51,7 +60,7 @@ function act(result) {
     toast(result.error, "error");
     return;
   }
-  if (result.message) toast(result.message);
+  if (result.message) toast(result.message, result.tone);
   if (result.hash && result.hash !== location.hash) {
     location.hash = result.hash;
     return;
@@ -122,7 +131,7 @@ function render() {
       input.setSelectionRange(pos, pos);
     }
   }
-  if (jobs && jobs.message) toast(jobs.message);
+  if (jobs && jobs.message) toast(jobs.message, "cyan");
 }
 
 function syncCert(form) {

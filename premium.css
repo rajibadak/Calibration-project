@@ -20,6 +20,10 @@
   --warn-bg: #fffaeb;
   --good: #067647;
   --good-bg: #ecfdf3;
+  --good-line: #abefc6;
+  --cyan: #0e7490;
+  --cyan-bg: #ecfeff;
+  --cyan-line: #a5f3fc;
   --neutral-bg: #f3f4f5;
   --radius-card: 10px;
   --radius-control: 8px;
@@ -472,10 +476,28 @@ body,
   box-shadow: none;
 }
 
+#toast .toast-success {
+  background: var(--good-bg);
+  color: var(--good);
+  border-color: var(--good-line);
+}
+
+#toast .toast-warning {
+  background: var(--warn-bg);
+  color: var(--warn);
+  border-color: #fedf89;
+}
+
 #toast .toast-error {
   background: var(--danger-bg);
   color: var(--danger);
   border-color: var(--danger-line);
+}
+
+#toast .toast-cyan {
+  background: var(--cyan-bg);
+  color: var(--cyan);
+  border-color: var(--cyan-line);
 }
 
 #app article table th {
